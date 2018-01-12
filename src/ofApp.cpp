@@ -5,7 +5,6 @@ void ofApp::setup() {
 
 	ofSetLogLevel(LOGLEVEL);
 	ofLogToConsole();
-
     grabber.initGrabber( WIDTH, HEIGHT);
     streamingSender.setup();
     streamingSender.setVideoEncoder("libx264", "ultrafast", AV_PIX_FMT_RGB24, AV_PIX_FMT_YUV420P, WIDTH, HEIGHT, STREAM_FRAMERATE, STREAM_BITRATE);
@@ -193,7 +192,7 @@ void ofApp::mouseDragged(int x, int y, int button) {
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button) {
 	currentStage = arrayStage[currentStage].get()->mousePressed(x, y);
-	ofLog() << "(Mouse)Actual stage: " << currentStage;
+	ofLog() << "(Mouse)Current stage: " << currentStage;
 }
 
 //--------------------------------------------------------------
@@ -240,6 +239,9 @@ void ofApp::onMagnetometerUpdated( ofxPSMove::EventArgs & psmoveEvent )
 void ofApp::onTrianglePressed( ofxPSMove::EventArgs & psmoveEvent )
 {
     ofLogNotice() << printf("Triangle pressed");
+    ofKeyEventArgs keyPress;
+    keyPress.key = 'p';
+    ofNotifyEvent(ofEvents().keyPressed, keyPress);
 }
 void ofApp::onCirclePressed( ofxPSMove::EventArgs & psmoveEvent )
 {
@@ -264,6 +266,11 @@ void ofApp::onStartPressed( ofxPSMove::EventArgs & psmoveEvent )
 void ofApp::onMovePressed( ofxPSMove::EventArgs & psmoveEvent )
 {
     ofLogNotice() << printf("Move pressed");
+    ofMouseEventArgs mouseEventArgs;
+    mouseEventArgs.x = cursor.x;
+    mouseEventArgs.y = cursor.y;
+    mouseEventArgs.button = 1;
+    ofNotifyEvent(ofEvents().mousePressed, mouseEventArgs);
 }
 void ofApp::onTPressed( ofxPSMove::EventArgs & psmoveEvent )
 {
@@ -272,6 +279,9 @@ void ofApp::onTPressed( ofxPSMove::EventArgs & psmoveEvent )
 void ofApp::onPSPressed( ofxPSMove::EventArgs & psmoveEvent )
 {
     ofLogNotice() << printf("PS pressed");
+    ofKeyEventArgs keyPress;
+    keyPress.key = 'm';
+    ofNotifyEvent(ofEvents().keyPressed, keyPress);
 }
 
 void ofApp::onTriangleReleased( ofxPSMove::EventArgs & psmoveEvent )
