@@ -56,9 +56,11 @@ set( OFX_ADDONS_ACTIVE
         #        ofxThreadedImageLoader
         #        ofxAssimpModelLoader
         #        ofxKinect
-        #        ofxOpenCv
+                ofxOpenCv
         #        ofxSvg
         #        ofxEmscripten (untested)
+                ofxPSMove
+                ofxStreamingSender
                 )
 
 # =========================================================================
