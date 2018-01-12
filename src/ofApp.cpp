@@ -6,11 +6,12 @@ void ofApp::setup() {
 	ofSetLogLevel(LOGLEVEL);
 	ofLogToConsole();
 
-
-//    streamingSender.setup();
-//    streamingSender.setVideoEncoder("libx264", "ultrafast", AV_PIX_FMT_RGB24, AV_PIX_FMT_YUV420P, WIDTH, HEIGHT, STREAM_FRAMERATE, STREAM_BITRATE);
-//    //streamingSender.start("udp://127.0.0.1:1234");
-//    streamingSender.start("udp://239.0.1.23:1234");
+	pixels.allocate(WIDTH, HEIGHT, OF_IMAGE_COLOR);
+	fbo.allocate(WIDTH, HEIGHT, GL_RGB);
+    streamingSender.setup();
+    streamingSender.setVideoEncoder("libx264", "ultrafast", AV_PIX_FMT_RGB24, AV_PIX_FMT_YUV420P, WIDTH, HEIGHT, STREAM_FRAMERATE, STREAM_BITRATE);
+    //streamingSender.start("udp://127.0.0.1:1234");
+    streamingSender.start("udp://239.0.1.23:1234");
 
     psMoveReceiver.setup();
     ofxAddPSMoveListeners(this);
@@ -83,15 +84,7 @@ void ofApp::update() {
 	if (currentStage > 14) {
 		arrayVideo[currentStage-15].update();
 	}
-}
-
-void ofApp::update(ofEventArgs & args) {
-    psMoveReceiver.update(args);
-    update();
-}
-
-//--------------------------------------------------------------
-void ofApp::draw() {
+	fbo.begin();
 	int w1 = ofGetWidth(); //Anchura de la ventana de la aplicacion
 	int h1 = ofGetHeight(); //Altura de la ventana de la aplicacion
 
@@ -132,7 +125,7 @@ void ofApp::draw() {
 			ofDisableAlphaBlending();
 		}
 	}
-	else {		
+	else {
 		int w0 = arrayVideo[currentStage - 15].getWidth();
 		int h0 = arrayVideo[currentStage - 15].getHeight();
 
@@ -167,6 +160,19 @@ void ofApp::draw() {
 			started = false;
 		}
 	}
+	fbo.end();
+	fbo.readToPixels(pixels);
+	streamingSender.sendVideoFrame(pixels.getData());
+}
+
+void ofApp::update(ofEventArgs & args) {
+    psMoveReceiver.update(args);
+    update();
+}
+
+//--------------------------------------------------------------
+void ofApp::draw() {
+	fbo.draw(0, 0, WIDTH, HEIGHT);
 }
 
 //--------------------------------------------------------------
