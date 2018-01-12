@@ -119,7 +119,10 @@ public:
 	//Linterna
 	ofPoint cursor;
 	ofImage lantern;
+    ofImage blood_cursor;
 
+
+    ofFbo fbo;
+    ofPixels pixels;
     ofxStreamingSender streamingSender;
-    ofVideoGrabber grabber;
 };

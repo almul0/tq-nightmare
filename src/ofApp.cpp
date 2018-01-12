@@ -5,11 +5,12 @@ void ofApp::setup() {
 
 	ofSetLogLevel(LOGLEVEL);
 	ofLogToConsole();
-    grabber.initGrabber( WIDTH, HEIGHT);
-    streamingSender.setup();
-    streamingSender.setVideoEncoder("libx264", "ultrafast", AV_PIX_FMT_RGB24, AV_PIX_FMT_YUV420P, WIDTH, HEIGHT, STREAM_FRAMERATE, STREAM_BITRATE);
-    //streamingSender.start("udp://127.0.0.1:1234");
-    streamingSender.start("udp://239.0.1.23:1234");
+
+
+//    streamingSender.setup();
+//    streamingSender.setVideoEncoder("libx264", "ultrafast", AV_PIX_FMT_RGB24, AV_PIX_FMT_YUV420P, WIDTH, HEIGHT, STREAM_FRAMERATE, STREAM_BITRATE);
+//    //streamingSender.start("udp://127.0.0.1:1234");
+//    streamingSender.start("udp://239.0.1.23:1234");
 
     psMoveReceiver.setup();
     ofxAddPSMoveListeners(this);
@@ -21,6 +22,7 @@ void ofApp::setup() {
 
 	//Cargar las imagenes
 	lantern.load("reveal.png");
+	blood_cursor.load("blood_cursor.png");
 
 	arrayImageStage[MENU].load("menu.jpg");
 	arrayImageStage[PASILLO1].load("pasillo1.jpg");
@@ -81,10 +83,6 @@ void ofApp::update() {
 	if (currentStage > 14) {
 		arrayVideo[currentStage-15].update();
 	}
-    grabber.update();
-    if(grabber.isFrameNew()){
-        streamingSender.sendVideoFrame(grabber.getPixels().getData());
-    }
 }
 
 void ofApp::update(ofEventArgs & args) {
@@ -114,6 +112,7 @@ void ofApp::draw() {
 		}
 		else {
 			arrayImageStage[currentStage].draw(max(0, (w1 - w0) / 2), max(0, (h1 - h0) / 2), w0, h0);
+
 		}
 
 		//Pintamos los objetos en el menu
@@ -128,6 +127,9 @@ void ofApp::draw() {
 					arrayImageObjects[i].draw(705, (i+1)*106, width, height);
 				}
 			}
+			blood_cursor.draw(cursor.x - (blood_cursor.getWidth() / 2), cursor.y - (blood_cursor.getHeight() / 2));
+
+			ofDisableAlphaBlending();
 		}
 	}
 	else {		
