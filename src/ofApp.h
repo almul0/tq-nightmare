@@ -2,9 +2,15 @@
 
 #define LOGLEVEL OF_LOG_NOTICE
 
+#define WIDTH 1920
+#define HEIGHT 480
+#define STREAM_FRAMERATE 60
+//#define STREAM_BITRATE 400000
+#define STREAM_BITRATE 4000000
+
 #include "ofMain.h"
 #include "ofxPSMove.h"
-
+#include "ofxStreamingSender.h"
 
 #include "ofxMenu.h"
 #include "ofxStage1.h"
@@ -114,4 +120,6 @@ public:
 	ofPoint cursor;
 	ofImage lantern;
 
+    ofxStreamingSender streamingSender;
+    ofVideoGrabber grabber;
 };
