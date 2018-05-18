@@ -12,7 +12,7 @@ ofxMenu::ofxMenu() {
 int ofxMenu::mousePressed(int x, int y) {
 
 	if (((x > obj1.x - 60) && (x < obj1.x + 60)) && ((y < obj1.y + 40) && (y > obj1.y - 40))) { //Tarjeta
-		if (free) {
+		if (win) {
 			chStage = VIDEOVICTORIA;
 		}
 	}
@@ -35,7 +35,7 @@ int ofxMenu::keyPressed(int key, int currentStage) {
 			menuOn = false;
 		}
 		else {
-			prevStage = currentStage; //Si entramos al menu, guardamos el escenario actual para poder volver a él
+			prevStage = currentStage; //Si entramos al menu, guardamos el escenario actual para poder volver a ï¿½l
 			ofLog() << "(m)Previous stage: " << prevStage;
 
 			chStage = MENU;

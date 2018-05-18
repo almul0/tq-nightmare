@@ -4,8 +4,8 @@
 #include "ofxStage8.h"
 
 ofxStage8::ofxStage8() {
-	obj1.set(670, 615); //Puerta
-	obj2.set(0, 0); //Micro abierto con papel
+	obj1.set(291, 266); //Puerta
+	obj2.set(1092, 245); //Micro abierto con papel
 
 	chStage = TUPPERMICROABIERTOCONPAPEL;
 }
